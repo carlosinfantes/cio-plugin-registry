@@ -1,0 +1,90 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2026-02-28T11:19:58Z",
+  "plugins": [
+    {
+      "domain": "cio",
+      "display_name": "CIO - Chief Intelligence Officer",
+      "version": "1.0.0",
+      "description": "AI-powered executive committee for intelligent decision-making",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/cio/cio-1.0.0.tar.gz",
+      "checksum": "9ada694b3025f59f89d40581a18f4e851274c8e1d219bdd497365fbb1f7117a2",
+      "size": 14870,
+      "min_cli_version": "0.1.0",
+      "category": "technology",
+      "keywords": [
+        "architecture",
+        "security",
+        "infrastructure",
+        "data",
+        "team",
+        "vendor",
+        "product",
+        "financial"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 3
+      }
+    },
+    {
+      "domain": "legal-advisory",
+      "display_name": "Legal Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered legal counsel for business and corporate decisions. Get perspectives from experienced legal professionals including corporate counsel, litigators, compliance officers, and specialists.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/legal-advisory/legal-advisory-1.0.0.tar.gz",
+      "checksum": "6ed83b768b8f99aed27a82968f4f3346bd4ccbda2234c32bb1c010425c37cf33",
+      "size": 3262,
+      "min_cli_version": "1.0.0",
+      "category": "legal",
+      "keywords": [
+        "corporate",
+        "litigation",
+        "contracts",
+        "compliance",
+        "employment",
+        "intellectual_property",
+        "privacy",
+        "tax",
+        "regulatory",
+        "transactions"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "technology",
+      "name": "Technology & Engineering",
+      "description": "Technical decision-making and engineering advisory"
+    },
+    {
+      "id": "legal",
+      "name": "Legal & Compliance",
+      "description": "Legal counsel, contracts, and compliance advisory"
+    },
+    {
+      "id": "healthcare",
+      "name": "Healthcare",
+      "description": "Medical and healthcare advisory"
+    },
+    {
+      "id": "business",
+      "name": "Business & Operations",
+      "description": "General business operations and specialty domains"
+    }
+  ]
+}

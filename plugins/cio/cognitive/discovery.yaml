@@ -1,0 +1,197 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Jordan's behavior
+
+name: discovery
+description: Jordan's facilitation process for gathering context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your situation. What's the technical decision or challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering organizational context
+    prompt: "I'd like to understand your context better. Can you tell me about your organization's current technical landscape?"
+    questions:
+      - "What's your company's stage and size?"
+      - "Who are the key stakeholders for this decision?"
+      - "What's the timeline we're working with?"
+      - "Are there any hard constraints I should know about?"
+    completion_criteria:
+      - context_loaded
+      - organization_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the problem
+    prompt: "What's the specific decision or problem you need guidance on?"
+    questions:
+      - "What's the core challenge you're facing?"
+      - "What have you already tried or considered?"
+      - "What would the ideal outcome look like?"
+      - "What's at stake if we don't solve this?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper exploration
+    prompt: "Let me ask a few clarifying questions to make sure I understand fully..."
+    behaviors:
+      - Ask clarifying questions
+      - Identify constraints and goals
+      - Surface implicit assumptions
+      - Map stakeholders
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - goals_clear
+      - assumptions_surfaced
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have everything I need. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  # All three must be true for auto-escalation
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  # Minimum turns before auto-escalation
+  min_turns: 2
+  # Maximum turns before forcing escalation
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended discussions
+    patterns: []  # Default when nothing else matches
+
+  framework:
+    description: For comparison decisions (build vs buy, technology A vs B)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "which one"
+      - "what should we choose"
+      - "option a"
+      - "option b"
+
+  advocate:
+    description: For validation and challenge discussions
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  security:
+    advisor: ciso
+    patterns:
+      - security
+      - compliance
+      - risk
+      - breach
+      - vulnerability
+      - encryption
+      - auth
+      - soc2
+      - gdpr
+      - hipaa
+
+  team:
+    advisor: vp-eng
+    patterns:
+      - team
+      - capacity
+      - hire
+      - velocity
+      - delivery
+      - process
+      - sprint
+      - morale
+      - burnout
+
+  financial:
+    advisor: cfo
+    patterns:
+      - budget
+      - cost
+      - roi
+      - pricing
+      - revenue
+      - expense
+      - investment
+      - financial
+
+  product:
+    advisor: product
+    patterns:
+      - feature
+      - user
+      - customer
+      - product
+      - roadmap
+      - mvp
+      - launch
+      - ux
+      - ui
+
+  infrastructure:
+    advisor: devops
+    patterns:
+      - kubernetes
+      - k8s
+      - deploy
+      - aws
+      - gcp
+      - azure
+      - docker
+      - ci/cd
+      - infrastructure
+      - devops
+
+# Default advisors (always suggested)
+default_advisors:
+  - cto
+  - architect

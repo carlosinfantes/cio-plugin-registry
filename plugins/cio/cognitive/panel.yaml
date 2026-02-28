@@ -1,0 +1,106 @@
+# Panel Mode Configuration
+# Defines how advisors interact in panel discussions
+
+name: panel
+description: Multi-advisor discussion mode
+
+# Response ordering strategies
+ordering:
+  default: round_robin
+  strategies:
+    - id: round_robin
+      description: Each advisor responds in turn
+
+    - id: priority
+      description: Most relevant advisors respond first
+      priority_by_domain:
+        architecture: [architect, cto]
+        security: [ciso, architect]
+        team: [vp-eng, cto]
+        financial: [cfo, cto]
+        product: [product, cto]
+        infrastructure: [devops, architect]
+
+    - id: debate
+      description: Advisors respond to each other's points
+
+    - id: synthesis
+      description: One advisor synthesizes all perspectives
+
+# Interaction modes
+modes:
+  panel:
+    description: All advisors provide perspectives
+    min_advisors: 2
+    max_advisors: 5
+    response_style: individual
+    synthesis: true
+
+  framework:
+    description: Structured comparison/decision framework
+    response_style: structured
+    sections:
+      - criteria_definition
+      - options_analysis
+      - trade_offs
+      - recommendation
+    synthesis: true
+
+  advocate:
+    description: One advisor defends, others challenge
+    response_style: adversarial
+    roles:
+      - defender
+      - challenger
+      - moderator
+    synthesis: true
+
+  interview:
+    description: Deep dive with one advisor
+    min_advisors: 1
+    max_advisors: 1
+    response_style: conversational
+    synthesis: false
+
+# Synthesis configuration
+synthesis:
+  enabled: true
+  sections:
+    - name: summary
+      description: Brief summary of the discussion
+
+    - name: recommendations
+      description: Key recommendations from the panel
+
+    - name: consensus
+      description: Points where advisors agreed
+
+    - name: divergence
+      description: Points where advisors disagreed
+
+    - name: next_steps
+      description: Suggested next actions
+
+    - name: follow_up
+      description: Questions for further exploration
+
+# Specialist auto-summoning
+specialists:
+  enabled: true
+  trigger: keyword_match
+  announce: true
+  announcement_template: |
+    📢 Auto-summoning {{.Name}} ({{.Role}})
+    Reason: {{.Reason}}
+
+# Response formatting
+formatting:
+  # Show advisor name and emoji in response header
+  show_advisor_header: true
+  header_template: "{{.Emoji}} **{{.Name}}** ({{.Role}})"
+
+  # Separator between advisor responses
+  separator: "\n\n---\n\n"
+
+  # Synthesis header
+  synthesis_header: "## 📋 Advisory Board Synthesis"
