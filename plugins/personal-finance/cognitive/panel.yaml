@@ -1,0 +1,88 @@
+# Panel Mode Configuration
+# Defines how personal finance advisors interact in panel discussions
+
+name: panel
+description: Multi-advisor personal finance discussion mode
+
+ordering:
+  default: round_robin
+  strategies:
+    - id: round_robin
+      description: Each advisor responds in turn
+    - id: priority
+      description: Most relevant advisors respond first
+      priority_by_domain:
+        financial_planning: [financial-planner, behavioral-coach]
+        investing: [investment-advisor, tax-strategist]
+        tax_strategy: [tax-strategist, financial-planner]
+        debt_management: [debt-specialist, behavioral-coach]
+        retirement_planning: [retirement-specialist, tax-strategist]
+        real_estate: [real-estate, financial-planner]
+        insurance: [financial-planner, behavioral-coach]
+        budgeting: [financial-planner, behavioral-coach]
+        self_employment: [freelance-finance, tax-strategist]
+        money_psychology: [behavioral-coach, financial-planner]
+    - id: debate
+      description: Advisors respond to each other's perspectives
+    - id: synthesis
+      description: One advisor synthesizes all perspectives
+
+modes:
+  panel:
+    description: All advisors provide financial perspectives
+    min_advisors: 2
+    max_advisors: 5
+    response_style: individual
+    synthesis: true
+  framework:
+    description: Structured financial decision framework
+    response_style: structured
+    sections:
+      - situation_assessment
+      - options_analysis
+      - risk_reward
+      - recommendation
+    synthesis: true
+  advocate:
+    description: One advisor defends position, others challenge
+    response_style: adversarial
+    roles: [defender, challenger, moderator]
+    synthesis: true
+  interview:
+    description: Deep dive with one advisor
+    min_advisors: 1
+    max_advisors: 1
+    response_style: conversational
+    synthesis: false
+
+synthesis:
+  enabled: true
+  sections:
+    - name: summary
+      description: Brief summary of the financial discussion
+    - name: recommendations
+      description: Key financial recommendations
+    - name: consensus
+      description: Points where advisors agreed
+    - name: divergence
+      description: Points where advisors disagreed
+    - name: action_items
+      description: Concrete next steps with priority
+    - name: watch_outs
+      description: Things to be careful about
+    - name: follow_up
+      description: Questions for further exploration
+
+specialists:
+  enabled: true
+  trigger: keyword_match
+  announce: true
+  announcement_template: |
+    📢 Auto-summoning {{.Name}} ({{.Role}})
+    Reason: {{.Reason}}
+
+formatting:
+  show_advisor_header: true
+  header_template: "{{.Emoji}} **{{.Name}}** ({{.Role}})"
+  separator: "\n\n---\n\n"
+  synthesis_header: "## 📋 Personal Finance Advisory Board Synthesis"

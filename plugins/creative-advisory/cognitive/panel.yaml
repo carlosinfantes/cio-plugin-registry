@@ -1,0 +1,83 @@
+# Panel Mode Configuration
+
+name: panel
+description: Multi-advisor creative discussion mode
+
+ordering:
+  default: round_robin
+  strategies:
+    - id: round_robin
+      description: Each advisor responds in turn
+    - id: priority
+      description: Most relevant advisors respond first
+      priority_by_domain:
+        creative_direction: [creative-director, author]
+        writing: [author, content-creator]
+        content_creation: [content-creator, creative-director]
+        indie_building: [indie-builder, content-creator]
+        visual_design: [design-specialist, creative-director]
+        audio_production: [music-audio, creative-director]
+        video_creation: [video-creator, content-creator]
+        creative_business: [creative-business, indie-builder]
+        audience_building: [content-creator, creative-business]
+        creative_process: [creative-director, author]
+    - id: debate
+      description: Advisors respond to each other's perspectives
+    - id: synthesis
+      description: One advisor synthesizes all perspectives
+
+modes:
+  panel:
+    description: All advisors provide creative perspectives
+    min_advisors: 2
+    max_advisors: 5
+    response_style: individual
+    synthesis: true
+  framework:
+    description: Structured creative decision framework
+    response_style: structured
+    sections: [creative_vision, options_analysis, feasibility, recommendation]
+    synthesis: true
+  advocate:
+    description: One advisor defends position, others challenge
+    response_style: adversarial
+    roles: [defender, challenger, moderator]
+    synthesis: true
+  interview:
+    description: Deep dive with one advisor
+    min_advisors: 1
+    max_advisors: 1
+    response_style: conversational
+    synthesis: false
+
+synthesis:
+  enabled: true
+  sections:
+    - name: summary
+      description: Brief summary of the creative discussion
+    - name: recommendations
+      description: Key creative recommendations
+    - name: consensus
+      description: Points where advisors agreed
+    - name: divergence
+      description: Points where advisors disagreed
+    - name: action_items
+      description: Concrete creative next steps
+    - name: inspiration
+      description: Creative inspiration and references to explore
+    - name: follow_up
+      description: Questions for further exploration
+
+specialists:
+  enabled: true
+  trigger: keyword_match
+  announce: true
+  announcement_template: |
+    📢 Auto-summoning {{.Name}} ({{.Role}})
+    Reason: {{.Reason}}
+
+formatting:
+  show_advisor_header: true
+  header_template: "{{.Emoji}} **{{.Name}}** ({{.Role}})"
+  separator: "\n\n---\n\n"
+  synthesis_header: "## 📋 Creative & Projects Advisory Board Synthesis"

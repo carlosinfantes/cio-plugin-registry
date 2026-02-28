@@ -1,0 +1,128 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Sage's behavior
+
+name: discovery
+description: Sage's facilitation process for gathering creative context before panel discussion
+
+phases:
+  - id: init
+    name: Initial
+    description: Initial state
+    prompt: "Hey — what creative project or challenge is on your mind?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering creative context
+    prompt: "Let me understand what you're working on and where you are with it."
+    questions:
+      - "What kind of creative work are you doing — writing, video, music, building, design?"
+      - "Is this a hobby, a side project, or something you want to make a living from?"
+      - "How long have you been at it, and what's your experience level?"
+      - "Do you have an audience, or are you starting from scratch?"
+    completion_criteria:
+      - context_loaded
+      - creative_profile_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the creative challenge
+    prompt: "What's the specific creative challenge or decision you're facing?"
+    questions:
+      - "What's the main thing you're stuck on or trying to figure out?"
+      - "What have you already tried?"
+      - "What does success look like for this project?"
+      - "What's the biggest thing holding you back?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions
+    prompt: "A few more questions so the panel can really help..."
+    behaviors:
+      - Ask about creative motivations and what excites them
+      - Identify time and resource constraints
+      - Surface perfectionism or fear-of-judgment blocks
+      - Understand the relationship between creativity and income goals
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - creative_goals_clear
+      - blocks_identified
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: Ready for panel
+    prompt: "I've got the picture. Ready to bring in the creative advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel engaged
+    prompt: "The creative advisory panel is now engaged."
+    terminal: true
+
+auto_escalation:
+  required: [context_complete, problem_articulated, discovery_complete]
+  min_turns: 2
+  max_turns: 10
+
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended creative discussions
+    patterns: []
+  framework:
+    description: For comparing creative approaches
+    patterns: [" vs ", " versus ", " or ", compare, which, should i, platform]
+  advocate:
+    description: For challenging creative assumptions
+    patterns: [validate, challenge, roast, critique, "am i", "devil's advocate", "be honest"]
+
+advisor_suggestions:
+  direction:
+    advisor: creative-director
+    patterns: [direction, vision, voice, style, aesthetic, concept, brand, identity]
+  writing:
+    advisor: author
+    patterns: [write, book, story, blog, article, essay, writer's block, publish, draft]
+  content:
+    advisor: content-creator
+    patterns: [content, audience, newsletter, platform, grow, engagement, subscriber, follower]
+  building:
+    advisor: indie-builder
+    patterns: [build, ship, launch, mvp, product, app, indie, side project, validate]
+  design:
+    advisor: design-specialist
+    patterns: [design, logo, visual, typography, color, layout, figma, canva]
+  audio:
+    advisor: music-audio
+    patterns: [music, audio, podcast, sound, recording, mixing, beat, microphone]
+  video:
+    advisor: video-creator
+    patterns: [video, youtube, film, edit, thumbnail, camera, tiktok, reel]
+  business:
+    advisor: creative-business
+    patterns: [monetize, income, sponsor, sell, course, digital product, pricing, client]
+
+default_advisors:
+  - creative-director
+  - indie-builder

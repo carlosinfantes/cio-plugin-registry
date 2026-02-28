@@ -1,6 +1,6 @@
 {
   "registry_version": "1.0.0",
-  "last_updated": "2026-02-28T13:00:00Z",
+  "last_updated": "2026-02-28T14:00:00Z",
   "plugins": [
     {
       "domain": "cio",
@@ -287,6 +287,134 @@
         "core": 4,
         "specialists": 4
       }
+    },
+    {
+      "domain": "personal-finance",
+      "display_name": "Personal Finance Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered personal finance advisory for individuals navigating investing, budgeting, debt, retirement, and major financial life decisions.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/personal-finance/personal-finance-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "personal",
+      "keywords": [
+        "financial_planning",
+        "investing",
+        "tax_strategy",
+        "debt_management",
+        "retirement_planning",
+        "real_estate",
+        "insurance",
+        "budgeting",
+        "self_employment",
+        "money_psychology"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "wellness-advisory",
+      "display_name": "Health & Wellness Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered wellness advisory for individuals navigating health, fitness, nutrition, mental health, and lifestyle decisions.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/wellness-advisory/wellness-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "personal",
+      "keywords": [
+        "nutrition",
+        "fitness",
+        "mental_health",
+        "sleep",
+        "stress_management",
+        "preventive_health",
+        "habit_building",
+        "longevity",
+        "weight_management",
+        "holistic_wellness"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "career-advisory",
+      "display_name": "Career & Growth Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered career advisory for professionals navigating job transitions, salary negotiations, skill development, and career strategy.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/career-advisory/career-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "personal",
+      "keywords": [
+        "career_strategy",
+        "job_search",
+        "negotiation",
+        "personal_brand",
+        "career_transitions",
+        "tech_career",
+        "freelancing",
+        "leadership",
+        "skill_development",
+        "networking"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "creative-advisory",
+      "display_name": "Creative & Projects Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered advisory for creators, writers, content makers, and indie builders navigating creative work and project development.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/creative-advisory/creative-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "personal",
+      "keywords": [
+        "creative_direction",
+        "writing",
+        "content_creation",
+        "indie_building",
+        "visual_design",
+        "audio_production",
+        "video_creation",
+        "creative_business",
+        "audience_building",
+        "creative_process"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
     }
   ],
   "categories": [
@@ -309,6 +437,11 @@
       "id": "business",
       "name": "Business & Operations",
       "description": "General business operations and specialty domains"
+    },
+    {
+      "id": "personal",
+      "name": "Personal & Life",
+      "description": "Personal advisory for life decisions, wellness, finances, and growth"
     }
   ]
 }

@@ -1,0 +1,128 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and River's behavior
+
+name: discovery
+description: River's facilitation process for gathering wellness context before panel discussion
+
+phases:
+  - id: init
+    name: Initial
+    description: Initial state
+    prompt: "Hey — what health or wellness goal is on your mind right now?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering health and lifestyle context
+    prompt: "Let me understand where you're at with your health. Share whatever you're comfortable with."
+    questions:
+      - "How would you describe your current activity level and lifestyle?"
+      - "Are you dealing with any specific health conditions or limitations?"
+      - "What does your typical day look like — sleep, meals, movement?"
+      - "Have you worked with any health professionals recently?"
+    completion_criteria:
+      - context_loaded
+      - baseline_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the wellness goal
+    prompt: "What's the specific health or wellness goal you'd like guidance on?"
+    questions:
+      - "What's the main thing you want to change or improve?"
+      - "What have you already tried?"
+      - "What does success look like for you — how will you know it's working?"
+      - "What's gotten in the way before?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions
+    prompt: "A few more questions so our panel has the full picture..."
+    behaviors:
+      - Ask about motivation and readiness to change
+      - Identify time and energy constraints
+      - Surface emotional relationship with the goal
+      - Understand support systems and environment
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - goals_clear
+      - motivation_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: Ready for panel
+    prompt: "I've got a good picture. Ready to bring in the wellness advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel engaged
+    prompt: "The wellness advisory panel is now engaged."
+    terminal: true
+
+auto_escalation:
+  required: [context_complete, problem_articulated, discovery_complete]
+  min_turns: 2
+  max_turns: 10
+
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended wellness discussions
+    patterns: []
+  framework:
+    description: For comparing approaches
+    patterns: [" vs ", " versus ", " or ", compare, which, should i]
+  advocate:
+    description: For challenging wellness assumptions
+    patterns: [validate, challenge, "is this", myth, bro science, "devil's advocate"]
+
+advisor_suggestions:
+  medical:
+    advisor: physician
+    patterns: [doctor, symptom, condition, medication, diagnosis, lab, blood work, screening]
+  nutrition:
+    advisor: nutritionist
+    patterns: [diet, food, eat, meal, calorie, macro, protein, supplement, vitamin]
+  fitness:
+    advisor: fitness-coach
+    patterns: [exercise, workout, gym, strength, cardio, run, lift, flexibility, mobility]
+  mental:
+    advisor: therapist
+    patterns: [anxiety, depression, stress, burnout, overwhelm, therapy, mental health, cope]
+  sleep:
+    advisor: sleep-specialist
+    patterns: [sleep, insomnia, tired, fatigue, energy, nap, circadian]
+  stress:
+    advisor: stress-management
+    patterns: [stress, meditation, mindfulness, breathing, calm, relax, burnout]
+  longevity:
+    advisor: longevity
+    patterns: [longevity, aging, biohacking, supplement, biomarker, healthspan, fasting]
+  habits:
+    advisor: habit-coach
+    patterns: [habit, routine, motivation, discipline, consistency, willpower, accountability]
+
+default_advisors:
+  - physician
+  - therapist

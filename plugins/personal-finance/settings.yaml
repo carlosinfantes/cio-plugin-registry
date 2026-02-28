@@ -1,0 +1,69 @@
+# Personal Finance Advisory Board Plugin Settings
+# Domain-specific defaults and configuration
+
+# Default interaction mode
+default_mode: panel
+
+# Default advisors to include in panel discussions
+default_advisors:
+  - financial-planner
+  - behavioral-coach
+
+# Whether to start with Pat (discovery mode) before panel
+start_in_discovery: true
+
+# Maximum advisors allowed in a single session
+max_advisors: 5
+
+# Minimum advisors required for panel mode
+min_advisors: 2
+
+# Auto-summon specialists based on keywords
+auto_summon_specialists: true
+
+# Discovery mode settings
+discovery:
+  min_questions: 2
+  max_questions: 10
+  auto_escalate: true
+
+# Panel mode settings
+panel:
+  show_synthesis: true
+  enable_debate: true
+  ordering: round_robin
+
+# Framework mode settings
+framework:
+  templates:
+    - debt-payoff-strategy
+    - investment-allocation
+    - buy-vs-rent
+    - retirement-readiness
+  show_scoring: true
+
+# Advocate mode settings
+advocate:
+  rounds: 3
+  challenge_intensity: moderate
+
+# Response formatting
+formatting:
+  show_emoji: true
+  show_role: true
+  use_markdown: true
+  show_thinking_style: false
+
+# Context integration
+context:
+  use_crf: true
+  stale_warning_days: 30
+  required_types:
+    - person
+    - financial_goal
+
+# Decision recording
+decisions:
+  auto_record: true
+  format: drf
+  include_discussion: true

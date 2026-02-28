@@ -1,0 +1,83 @@
+# Panel Mode Configuration
+
+name: panel
+description: Multi-advisor career discussion mode
+
+ordering:
+  default: round_robin
+  strategies:
+    - id: round_robin
+      description: Each advisor responds in turn
+    - id: priority
+      description: Most relevant advisors respond first
+      priority_by_domain:
+        career_strategy: [career-coach, personal-brand]
+        job_search: [recruiter, career-coach]
+        negotiation: [negotiation-expert, recruiter]
+        personal_brand: [personal-brand, career-coach]
+        career_transitions: [career-pivot, career-coach]
+        tech_career: [tech-career, recruiter]
+        freelancing: [freelance-career, negotiation-expert]
+        leadership: [leadership-dev, career-coach]
+        skill_development: [career-coach, tech-career]
+        networking: [personal-brand, recruiter]
+    - id: debate
+      description: Advisors respond to each other's perspectives
+    - id: synthesis
+      description: One advisor synthesizes all perspectives
+
+modes:
+  panel:
+    description: All advisors provide career perspectives
+    min_advisors: 2
+    max_advisors: 5
+    response_style: individual
+    synthesis: true
+  framework:
+    description: Structured career decision framework
+    response_style: structured
+    sections: [current_situation, options_analysis, risk_reward, recommendation]
+    synthesis: true
+  advocate:
+    description: One advisor defends position, others challenge
+    response_style: adversarial
+    roles: [defender, challenger, moderator]
+    synthesis: true
+  interview:
+    description: Deep dive with one advisor
+    min_advisors: 1
+    max_advisors: 1
+    response_style: conversational
+    synthesis: false
+
+synthesis:
+  enabled: true
+  sections:
+    - name: summary
+      description: Brief summary of the career discussion
+    - name: recommendations
+      description: Key career recommendations
+    - name: consensus
+      description: Points where advisors agreed
+    - name: divergence
+      description: Points where advisors disagreed
+    - name: action_items
+      description: Concrete next steps
+    - name: timeline
+      description: Suggested timeline for actions
+    - name: follow_up
+      description: Questions for further exploration
+
+specialists:
+  enabled: true
+  trigger: keyword_match
+  announce: true
+  announcement_template: |
+    📢 Auto-summoning {{.Name}} ({{.Role}})
+    Reason: {{.Reason}}
+
+formatting:
+  show_advisor_header: true
+  header_template: "{{.Emoji}} **{{.Name}}** ({{.Role}})"
+  separator: "\n\n---\n\n"
+  synthesis_header: "## 📋 Career & Growth Advisory Board Synthesis"

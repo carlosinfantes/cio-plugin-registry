@@ -1,0 +1,53 @@
+# Creative & Projects Advisory Board Plugin Settings
+# Domain-specific defaults and configuration
+
+default_mode: panel
+
+default_advisors:
+  - creative-director
+  - indie-builder
+
+start_in_discovery: true
+max_advisors: 5
+min_advisors: 2
+auto_summon_specialists: true
+
+discovery:
+  min_questions: 2
+  max_questions: 10
+  auto_escalate: true
+
+panel:
+  show_synthesis: true
+  enable_debate: true
+  ordering: round_robin
+
+framework:
+  templates:
+    - project-viability
+    - platform-selection
+    - content-strategy
+    - creative-monetization
+  show_scoring: true
+
+advocate:
+  rounds: 3
+  challenge_intensity: moderate
+
+formatting:
+  show_emoji: true
+  show_role: true
+  use_markdown: true
+  show_thinking_style: false
+
+context:
+  use_crf: true
+  stale_warning_days: 14
+  required_types:
+    - creator
+    - creative_project
+
+decisions:
+  auto_record: true
+  format: drf
+  include_discussion: true

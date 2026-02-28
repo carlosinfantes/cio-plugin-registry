@@ -1,0 +1,128 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Cameron's behavior
+
+name: discovery
+description: Cameron's facilitation process for gathering career context before panel discussion
+
+phases:
+  - id: init
+    name: Initial
+    description: Initial state
+    prompt: "Hey — what career question or transition is on your mind right now?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering career context
+    prompt: "Let me understand where you are professionally."
+    questions:
+      - "What's your current role, and how long have you been in it?"
+      - "What industry are you in?"
+      - "Where would you say you are — early career, mid-career, senior, executive?"
+      - "Are you actively looking to change something, or exploring?"
+    completion_criteria:
+      - context_loaded
+      - career_stage_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the career challenge
+    prompt: "What's the specific career decision or challenge you're facing?"
+    questions:
+      - "What's the core career question on your mind?"
+      - "What would the ideal outcome look like in 12 months?"
+      - "What's holding you back or making this hard?"
+      - "Is there a timeline or deadline?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions
+    prompt: "A few more questions so the advisors can give you the best guidance..."
+    behaviors:
+      - Ask about career motivations and values
+      - Identify financial constraints and risk tolerance
+      - Surface fears and emotional blockers
+      - Understand family and life context
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - goals_clear
+      - motivations_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: Ready for panel
+    prompt: "I've got the picture. Ready to bring in the career advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel engaged
+    prompt: "The career advisory panel is now engaged."
+    terminal: true
+
+auto_escalation:
+  required: [context_complete, problem_articulated, discovery_complete]
+  min_turns: 2
+  max_turns: 10
+
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended career discussions
+    patterns: []
+  framework:
+    description: For comparing options
+    patterns: [" vs ", " versus ", " or ", compare, which, should i, offer]
+  advocate:
+    description: For challenging career assumptions
+    patterns: [validate, challenge, "am i crazy", "talk me out of", "devil's advocate"]
+
+advisor_suggestions:
+  coaching:
+    advisor: career-coach
+    patterns: [purpose, direction, stuck, unfulfilled, career path, what do i want]
+  job_search:
+    advisor: recruiter
+    patterns: [resume, linkedin, interview, apply, job search, hire, rejected]
+  compensation:
+    advisor: negotiation-expert
+    patterns: [salary, negotiate, offer, raise, equity, compensation, counter]
+  visibility:
+    advisor: personal-brand
+    patterns: [brand, linkedin, visibility, thought leadership, speaking, network]
+  pivot:
+    advisor: career-pivot
+    patterns: [pivot, career change, switch, new field, different industry, starting over]
+  tech:
+    advisor: tech-career
+    patterns: [engineer, developer, tech, ic, staff, principal, manager, coding interview]
+  freelance:
+    advisor: freelance-career
+    patterns: [freelance, consulting, independent, solo, self-employed, client, rate]
+  leadership:
+    advisor: leadership-dev
+    patterns: [leadership, executive presence, management, difficult conversations, promotion]
+
+default_advisors:
+  - career-coach
+  - recruiter

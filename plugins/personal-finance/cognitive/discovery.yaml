@@ -1,0 +1,143 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Pat's behavior
+
+name: discovery
+description: Pat's facilitation process for gathering personal finance context before panel discussion
+
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context yet
+    prompt: "Hey — what money question or decision is on your mind right now?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering personal financial context
+    prompt: "Let me understand your financial picture a bit. No need to share exact numbers if you're not comfortable."
+    questions:
+      - "Where are you in life — early career, mid-career, nearing retirement?"
+      - "Are you employed (W2), self-employed, freelance, or something else?"
+      - "Do you have any major financial goals right now (house, retirement, debt payoff)?"
+      - "Are there any financial stressors keeping you up at night?"
+    completion_criteria:
+      - context_loaded
+      - life_stage_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the financial question
+    prompt: "What's the specific money decision or question you'd like guidance on?"
+    questions:
+      - "What's the core financial decision you're facing?"
+      - "Have you already researched this or gotten other advice?"
+      - "What would a great outcome look like for you?"
+      - "Is there a timeline or deadline?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper exploration
+    prompt: "A few more questions so our advisors have the full picture..."
+    behaviors:
+      - Ask about income, savings, and debt at a comfortable level of detail
+      - Identify emotional factors driving financial decisions
+      - Surface assumptions about risk tolerance
+      - Understand family and partner financial dynamics
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - goals_clear
+      - emotional_context_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I've got a good picture. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The personal finance advisory panel is now engaged."
+    terminal: true
+
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended financial discussions
+    patterns: []
+  framework:
+    description: For comparison decisions
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "which"
+      - "should i"
+  advocate:
+    description: For challenging financial assumptions
+    patterns:
+      - "validate"
+      - "challenge"
+      - "am i crazy"
+      - "is this dumb"
+      - "devil's advocate"
+      - "talk me out of"
+
+advisor_suggestions:
+  planning:
+    advisor: financial-planner
+    patterns: [goal, plan, insurance, protect, budget, save, emergency]
+  investing:
+    advisor: investment-advisor
+    patterns: [invest, stock, bond, etf, index, portfolio, allocation, crypto, market]
+  tax:
+    advisor: tax-strategist
+    patterns: [tax, ira, 401k, roth, deduction, cpa, filing, capital gains]
+  psychology:
+    advisor: behavioral-coach
+    patterns: [anxious, scared, overwhelm, partner, spouse, argue, impulse, emotional]
+  debt:
+    advisor: debt-specialist
+    patterns: [debt, credit card, loan, mortgage, student loan, refinance, credit score]
+  retirement:
+    advisor: retirement-specialist
+    patterns: [retirement, 401k, social security, fire, early retirement, pension]
+  home:
+    advisor: real-estate
+    patterns: [house, home, buy, rent, mortgage, down payment, property]
+  freelance:
+    advisor: freelance-finance
+    patterns: [freelance, self-employed, 1099, side hustle, quarterly tax, llc]
+
+default_advisors:
+  - financial-planner
+  - behavioral-coach
