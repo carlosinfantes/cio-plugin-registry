@@ -32,7 +32,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 128
     },
     {
       "domain": "cio",
@@ -62,7 +63,8 @@
       "advisors": {
         "core": 4,
         "specialists": 3
-      }
+      },
+      "stars": 247
     },
     {
       "domain": "creative-advisory",
@@ -94,7 +96,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 312
     },
     {
       "domain": "data-ai-advisory",
@@ -126,7 +129,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 389
     },
     {
       "domain": "financial-advisory",
@@ -153,12 +157,13 @@
         "compliance",
         "pricing"
       ],
-      "featured": false,
+      "featured": true,
       "downloads": 9146,
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 456
     },
     {
       "domain": "legal-advisory",
@@ -190,7 +195,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 67
     },
     {
       "domain": "marketing-advisory",
@@ -217,12 +223,13 @@
         "seo",
         "analytics"
       ],
-      "featured": false,
+      "featured": true,
       "downloads": 13959,
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 534
     },
     {
       "domain": "people-advisory",
@@ -254,7 +261,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 142
     },
     {
       "domain": "personal-finance",
@@ -286,7 +294,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 89
     },
     {
       "domain": "product-advisory",
@@ -318,7 +327,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 198
     },
     {
       "domain": "security-advisory",
@@ -350,7 +360,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 276
     },
     {
       "domain": "startup-advisory",
@@ -377,12 +388,13 @@
         "legal_formation",
         "growth_strategy"
       ],
-      "featured": false,
+      "featured": true,
       "downloads": 8158,
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 421
     },
     {
       "domain": "wellness-advisory",
@@ -414,7 +426,8 @@
       "advisors": {
         "core": 4,
         "specialists": 4
-      }
+      },
+      "stars": 73
     }
   ],
   "categories": [
