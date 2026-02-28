@@ -3,6 +3,7 @@
 
 domain: financial-advisory
 version: "1.0.0"
+category: business
 display_name: "Financial Advisory Board"
 description: |
   AI-powered CFO-level counsel for financial strategy and business operations.

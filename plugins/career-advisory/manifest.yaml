@@ -3,6 +3,7 @@
 
 domain: career-advisory
 version: "1.0.0"
+category: personal
 display_name: "Career & Growth Advisory Board"
 description: |
   AI-powered career advisory for professionals navigating job transitions,

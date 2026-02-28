@@ -3,6 +3,7 @@
 
 domain: startup-advisory
 version: "1.0.0"
+category: business
 display_name: "Startup Advisory Board"
 description: |
   AI-powered advisory board for founders and early-stage companies.

@@ -11,6 +11,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PLUGINS_DIR="$REPO_ROOT/plugins"
 INDEX_FILE="$REPO_ROOT/index.json"
+DOWNLOADS_FILE="$REPO_ROOT/downloads.json"
 
 # ---------------------------------------------------------------------------
 # Preflight
@@ -25,6 +26,13 @@ done
 # ---------------------------------------------------------------------------
 # Collect plugin entries
 # ---------------------------------------------------------------------------
+# Load persistent download counts
+if [ -f "$DOWNLOADS_FILE" ]; then
+  download_counts="$(cat "$DOWNLOADS_FILE")"
+else
+  download_counts='{"counts":{}}'
+fi
+
 entries="[]"
 
 for manifest in "$PLUGINS_DIR"/*/manifest.yaml; do
@@ -48,12 +56,20 @@ for manifest in "$PLUGINS_DIR"/*/manifest.yaml; do
   # Detect category heuristically
   category="business"
   domains_str="$(yq -r '(.decision_domains // []) | join(" ")' "$manifest")"
-  if echo "$domains_str" | grep -qiE "tech|engineer|architect"; then
-    category="technology"
-  elif echo "$domains_str" | grep -qiE "legal|compliance|contract"; then
+  # Category detection — check manifest category field first, then heuristic
+  manifest_category="$(yq -r '.category // ""' "$manifest")"
+  if [ -n "$manifest_category" ]; then
+    category="$manifest_category"
+  elif echo "$domains_str" | grep -qiE "career_strategy|money_psychology|personal_brand|creative_process|habit|freelancing|holistic_wellness"; then
+    category="personal"
+  elif echo "$domains_str" | grep -qiE "financial_planning" && echo "$domains_str" | grep -qiE "investing|budgeting|retirement"; then
+    category="personal"
+  elif echo "$domains_str" | grep -qiE "legal|litigation|contract"; then
     category="legal"
   elif echo "$domains_str" | grep -qiE "health|medical|clinical"; then
     category="healthcare"
+  elif echo "$domains_str" | grep -qiE "tech_strategy|engineer|architect|security_strategy|data_strategy|ml_engineer"; then
+    category="technology"
   fi
 
   # -----------------------------------------------------------------------
@@ -84,6 +100,9 @@ for manifest in "$PLUGINS_DIR"/*/manifest.yaml; do
   IFS=',' read -ra kw_array <<< "$keywords"
   kw_json="$(printf '%s\n' "${kw_array[@]}" | jq -R . | jq -s .)"
 
+  # Look up persistent download count
+  dl_count="$(echo "$download_counts" | jq -r --arg d "$domain" '.counts[$d] // 0')"
+
   entry="$(jq -n \
     --arg domain "$domain" \
     --arg display_name "$display_name" \
@@ -100,6 +119,7 @@ for manifest in "$PLUGINS_DIR"/*/manifest.yaml; do
     --argjson keywords "$kw_json" \
     --argjson core_count "$core_count" \
     --argjson specialist_count "$specialist_count" \
+    --argjson dl_count "$dl_count" \
     '{
       domain: $domain,
       display_name: $display_name,
@@ -115,7 +135,7 @@ for manifest in "$PLUGINS_DIR"/*/manifest.yaml; do
       category: $category,
       keywords: $keywords,
       featured: false,
-      downloads: 0,
+      downloads: $dl_count,
       advisors: { core: $core_count, specialists: $specialist_count }
     }'
   )"
@@ -142,7 +162,8 @@ jq -n \
       { id: "technology", name: "Technology & Engineering", description: "Technical decision-making and engineering advisory" },
       { id: "legal", name: "Legal & Compliance", description: "Legal counsel, contracts, and compliance advisory" },
       { id: "healthcare", name: "Healthcare", description: "Medical and healthcare advisory" },
-      { id: "business", name: "Business & Operations", description: "General business operations and specialty domains" }
+      { id: "business", name: "Business & Operations", description: "General business operations and specialty domains" },
+      { id: "personal", name: "Personal & Life", description: "Personal advisory for life decisions, wellness, finances, and growth" }
     ]
   }' > "$INDEX_FILE"
 
