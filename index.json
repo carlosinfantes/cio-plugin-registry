@@ -1,6 +1,6 @@
 {
   "registry_version": "1.0.0",
-  "last_updated": "2026-02-28T11:19:58Z",
+  "last_updated": "2026-02-28T11:20:26Z",
   "plugins": [
     {
       "domain": "cio",
@@ -11,8 +11,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/cio/cio-1.0.0.tar.gz",
-      "checksum": "9ada694b3025f59f89d40581a18f4e851274c8e1d219bdd497365fbb1f7117a2",
-      "size": 14870,
+      "checksum": "40561da42fa94d06e3e34d625465564d948ae23a812446376b3dda13d730076e",
+      "size": 12157,
       "min_cli_version": "0.1.0",
       "category": "technology",
       "keywords": [
@@ -41,8 +41,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/legal-advisory/legal-advisory-1.0.0.tar.gz",
-      "checksum": "6ed83b768b8f99aed27a82968f4f3346bd4ccbda2234c32bb1c010425c37cf33",
-      "size": 3262,
+      "checksum": "695250c77f16f577451f671bf96579a4863993b2ea0646dd20287c470b8c3515",
+      "size": 2985,
       "min_cli_version": "1.0.0",
       "category": "legal",
       "keywords": [
