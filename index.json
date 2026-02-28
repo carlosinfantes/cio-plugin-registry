@@ -1,6 +1,6 @@
 {
   "registry_version": "1.0.0",
-  "last_updated": "2026-02-28T13:09:06Z",
+  "last_updated": "2026-02-28T13:10:39Z",
   "plugins": [
     {
       "domain": "career-advisory",
@@ -11,8 +11,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/career-advisory/career-advisory-1.0.0.tar.gz",
-      "checksum": "cb60c833ff583b714e2eca8be5ed89f8fada4be7ea199a5de82454b53cd3f592",
-      "size": 8450,
+      "checksum": "ebf46d157e9e458b61a412fbc887612b689698038dbbae704bc26550299e8d8b",
+      "size": 7506,
       "min_cli_version": "1.0.0",
       "category": "personal",
       "keywords": [
@@ -43,8 +43,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/cio/cio-1.0.0.tar.gz",
-      "checksum": "baea7890b20bb765f8e08c880485f5c415db3286ec7c4091d19f570fcebc7cca",
-      "size": 14872,
+      "checksum": "da586b2aabd6b7ba9e745d062b8594ac6e572c73a904b9064037a9eafab4f7d7",
+      "size": 12157,
       "min_cli_version": "0.1.0",
       "category": "technology",
       "keywords": [
@@ -73,8 +73,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/creative-advisory/creative-advisory-1.0.0.tar.gz",
-      "checksum": "8cca8aa93e24be300ca385546a4caa5c6d48f0fe1d3de96f9fdbc728b5f0e590",
-      "size": 8622,
+      "checksum": "877fb371051c0d903c5c607c92f7be31b9a2273e6e067ebbbe58814065715485",
+      "size": 7676,
       "min_cli_version": "1.0.0",
       "category": "personal",
       "keywords": [
@@ -105,8 +105,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/data-ai-advisory/data-ai-advisory-1.0.0.tar.gz",
-      "checksum": "a8a781ff6b904b3e49cf3d3ab9ac67c0627e8d8d4a886dd0ac9da3b20c15367f",
-      "size": 10102,
+      "checksum": "114e893dd311764c27656f37f4b100b63b9ea4fefa47b0dfd589a5c3e92629e8",
+      "size": 9146,
       "min_cli_version": "1.0.0",
       "category": "technology",
       "keywords": [
@@ -137,8 +137,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/financial-advisory/financial-advisory-1.0.0.tar.gz",
-      "checksum": "c953fb882befb59b5cb3df19aa367bd8b3f7159cbb2e2a1a263a6af681243e2d",
-      "size": 9460,
+      "checksum": "3f992fde9817b937503e86512c0de92f972ccdc36663b180e77751c35afb20fa",
+      "size": 8513,
       "min_cli_version": "1.0.0",
       "category": "business",
       "keywords": [
@@ -169,8 +169,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/legal-advisory/legal-advisory-1.0.0.tar.gz",
-      "checksum": "24a89dff4135c453ac2f419858af229c9ef7e7f9537dab88b40c973684c7ce3d",
-      "size": 3266,
+      "checksum": "2950f9d2cbe8c77019188d296c3dbfd97ef9994f99e5573ef98d0b43c9da53d4",
+      "size": 2985,
       "min_cli_version": "1.0.0",
       "category": "legal",
       "keywords": [
@@ -201,8 +201,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/marketing-advisory/marketing-advisory-1.0.0.tar.gz",
-      "checksum": "038782e5fa7a39552a1a750b367f066aefd0b5f6ed4b6fb26c32b65522136362",
-      "size": 9693,
+      "checksum": "89dbefd87fd432d8bec5f429b67138fbf164b0d73b5f9e65711e9516a2052c40",
+      "size": 8744,
       "min_cli_version": "1.0.0",
       "category": "business",
       "keywords": [
@@ -233,8 +233,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/people-advisory/people-advisory-1.0.0.tar.gz",
-      "checksum": "9037757cde1ffa2f493d44f1b70d5d37c82f4aa33839b004ed80360a3e9791ee",
-      "size": 9814,
+      "checksum": "21cf0bcf5b3a2804a6b234c30a23a4c5cda9f28664cab7921738c61c8b4d1332",
+      "size": 8859,
       "min_cli_version": "1.0.0",
       "category": "business",
       "keywords": [
@@ -265,8 +265,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/personal-finance/personal-finance-1.0.0.tar.gz",
-      "checksum": "91dc627e4e974a93ca3d5b387218b6b1854edefa3d784724fcd1009836bfefad",
-      "size": 8879,
+      "checksum": "55f6d5f7ec77c2627e83cfd3387e409ab569dd39777efa22e1da760354789b0e",
+      "size": 8008,
       "min_cli_version": "1.0.0",
       "category": "personal",
       "keywords": [
@@ -297,8 +297,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/product-advisory/product-advisory-1.0.0.tar.gz",
-      "checksum": "f9493a769e17bc97772b23966ac7be04176e774e663694199962719218d5a893",
-      "size": 9758,
+      "checksum": "7772321f34fb66565dc55c99ee0d9aabc948c21189f49c75ce6eba9611dd3c61",
+      "size": 8831,
       "min_cli_version": "1.0.0",
       "category": "business",
       "keywords": [
@@ -329,8 +329,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/security-advisory/security-advisory-1.0.0.tar.gz",
-      "checksum": "c1276e1238138e8bf7bf8efc8b02d601b6ac456472f1eb82c7ed4d020bdc8e50",
-      "size": 9952,
+      "checksum": "edd59ff524091f69048236165f263e6b12744828099c68a7d618a593454ac683",
+      "size": 8975,
       "min_cli_version": "1.0.0",
       "category": "technology",
       "keywords": [
@@ -361,8 +361,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/startup-advisory/startup-advisory-1.0.0.tar.gz",
-      "checksum": "7c024079052b6ceb209f9b601db141901e5ce880d688a1ad5a22f08a6a7403eb",
-      "size": 9723,
+      "checksum": "a8e2ff76f5d11a52fa26bde6390a1dbd4a63b25579759c687e9641b42661f535",
+      "size": 8726,
       "min_cli_version": "1.0.0",
       "category": "business",
       "keywords": [
@@ -393,8 +393,8 @@
       "license": "MIT",
       "homepage": "https://github.com/carlosinfantes/cio",
       "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/wellness-advisory/wellness-advisory-1.0.0.tar.gz",
-      "checksum": "0353d4ea8ab822f3b30c8b73c3c1bd7c16b675f1f17fd09b3ffac366aa5f57c4",
-      "size": 8636,
+      "checksum": "5306ce49c406888117b95f5f029b5ef653b73949272e03741df5bee895384a80",
+      "size": 7724,
       "min_cli_version": "1.0.0",
       "category": "personal",
       "keywords": [
