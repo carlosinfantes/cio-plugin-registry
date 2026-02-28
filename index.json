@@ -1,6 +1,6 @@
 {
   "registry_version": "1.0.0",
-  "last_updated": "2026-02-28T11:20:26Z",
+  "last_updated": "2026-02-28T13:00:00Z",
   "plugins": [
     {
       "domain": "cio",
@@ -56,6 +56,230 @@
         "tax",
         "regulatory",
         "transactions"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "financial-advisory",
+      "display_name": "Financial Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered CFO-level counsel for financial strategy and business operations. Get perspectives from experienced finance professionals including CFOs, controllers, investment strategists, and treasury specialists.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/financial-advisory/financial-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "business",
+      "keywords": [
+        "capital_allocation",
+        "financial_planning",
+        "treasury",
+        "tax_strategy",
+        "investor_relations",
+        "mergers_acquisitions",
+        "procurement",
+        "accounting",
+        "compliance",
+        "pricing"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "startup-advisory",
+      "display_name": "Startup Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered advisory board for founders and early-stage companies. Get perspectives from experienced founders, VCs, operators, and go-to-market specialists who've been through the startup journey.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/startup-advisory/startup-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "business",
+      "keywords": [
+        "fundraising",
+        "product_market_fit",
+        "go_to_market",
+        "hiring",
+        "technical_architecture",
+        "pricing",
+        "pivoting",
+        "co_founder",
+        "legal_formation",
+        "growth_strategy"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "data-ai-advisory",
+      "display_name": "Data & AI Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered advisory for data strategy, machine learning, and AI governance. Get perspectives from experienced data leaders including CDOs, ML engineers, AI ethicists, and data platform architects.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/data-ai-advisory/data-ai-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "technology",
+      "keywords": [
+        "data_strategy",
+        "data_governance",
+        "ml_engineering",
+        "ai_research",
+        "data_architecture",
+        "analytics",
+        "ai_ethics",
+        "data_privacy",
+        "generative_ai",
+        "data_operations"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "security-advisory",
+      "display_name": "Security Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered CISO-level counsel for cybersecurity strategy and operations. Get perspectives from experienced security leaders including CISOs, AppSec engineers, incident responders, and compliance architects.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/security-advisory/security-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "technology",
+      "keywords": [
+        "security_strategy",
+        "application_security",
+        "security_architecture",
+        "incident_response",
+        "compliance_grc",
+        "cloud_security",
+        "threat_management",
+        "identity_access",
+        "data_protection",
+        "security_operations"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "people-advisory",
+      "display_name": "People & Culture Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered CHRO-level counsel for people strategy, organizational design, and talent management. Get perspectives from experienced HR leaders including CHROs, talent strategists, compensation experts, and org designers.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/people-advisory/people-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "business",
+      "keywords": [
+        "people_strategy",
+        "organizational_design",
+        "talent_acquisition",
+        "total_rewards",
+        "dei",
+        "learning_development",
+        "employee_relations",
+        "performance_management",
+        "remote_hybrid",
+        "culture"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "product-advisory",
+      "display_name": "Product & Growth Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered CPO-level counsel for product strategy, growth, and user experience. Get perspectives from experienced product leaders including CPOs, growth operators, UX researchers, and pricing strategists.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/product-advisory/product-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "business",
+      "keywords": [
+        "product_strategy",
+        "growth",
+        "user_research",
+        "product_analytics",
+        "pricing",
+        "platform",
+        "competitive_strategy",
+        "mobile",
+        "experimentation",
+        "roadmap"
+      ],
+      "featured": false,
+      "downloads": 0,
+      "advisors": {
+        "core": 4,
+        "specialists": 4
+      }
+    },
+    {
+      "domain": "marketing-advisory",
+      "display_name": "Marketing & Brand Advisory Board",
+      "version": "1.0.0",
+      "description": "AI-powered CMO-level counsel for marketing strategy, demand generation, and brand building. Get perspectives from experienced marketing leaders including CMOs, demand gen experts, brand strategists, and content leaders.",
+      "author": "CIO Team",
+      "license": "MIT",
+      "homepage": "https://github.com/carlosinfantes/cio",
+      "download_url": "https://raw.githubusercontent.com/carlosinfantes/cio-plugin-registry/main/plugins/marketing-advisory/marketing-advisory-1.0.0.tar.gz",
+      "checksum": "",
+      "size": 0,
+      "min_cli_version": "1.0.0",
+      "category": "business",
+      "keywords": [
+        "marketing_strategy",
+        "demand_generation",
+        "brand_strategy",
+        "content",
+        "paid_media",
+        "product_marketing",
+        "community",
+        "marketing_operations",
+        "seo",
+        "analytics"
       ],
       "featured": false,
       "downloads": 0,

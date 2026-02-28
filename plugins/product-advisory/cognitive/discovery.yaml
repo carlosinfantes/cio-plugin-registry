@@ -1,0 +1,224 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Jules' behavior
+
+name: discovery
+description: Jules' facilitation process for gathering product context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your product. What's the product or growth challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering product and market context
+    prompt: "I'd like to understand your product landscape. Can you tell me about what you're building?"
+    questions:
+      - "What's your product and who are your target users?"
+      - "What's your current stage — pre-PMF, growth, mature?"
+      - "What does your growth motion look like — PLG, sales-led, hybrid?"
+      - "What are your key metrics right now (ARR, DAU, retention, etc.)?"
+    completion_criteria:
+      - context_loaded
+      - product_stage_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the product challenge
+    prompt: "What's the specific product or growth decision you need guidance on?"
+    questions:
+      - "What's the core product challenge you're facing?"
+      - "What have you already tried or shipped?"
+      - "What does success look like for this initiative?"
+      - "What are the constraints (time, team, budget)?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper product exploration
+    prompt: "Let me ask a few more questions to make sure the panel has the full picture..."
+    behaviors:
+      - Ask clarifying questions about user behavior and data
+      - Identify competitive and market dynamics
+      - Surface implicit product assumptions
+      - Map the user journey and pain points
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - product_goals_clear
+      - user_context_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a solid picture of your product situation. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The product advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended product discussions
+    patterns: []
+
+  framework:
+    description: For comparison decisions (feature A vs B, pricing models)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "prioritize"
+      - "which"
+      - "evaluate"
+      - "rank"
+
+  advocate:
+    description: For challenging product assumptions and validating strategy
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+      - "roast"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  strategy:
+    advisor: cpo
+    patterns:
+      - strategy
+      - vision
+      - roadmap
+      - prioritize
+      - product-market fit
+      - pmf
+      - direction
+
+  growth:
+    advisor: growth-lead
+    patterns:
+      - growth
+      - activation
+      - retention
+      - churn
+      - funnel
+      - onboarding
+      - plg
+      - conversion
+      - cac
+      - ltv
+
+  research:
+    advisor: ux-research
+    patterns:
+      - user research
+      - usability
+      - interview
+      - survey
+      - user testing
+      - persona
+      - journey map
+      - ux
+      - accessibility
+
+  analytics:
+    advisor: product-analytics
+    patterns:
+      - metrics
+      - analytics
+      - a/b test
+      - experiment
+      - data
+      - cohort
+      - north star
+      - kpi
+
+  pricing:
+    advisor: pricing-strategy
+    patterns:
+      - pricing
+      - monetization
+      - freemium
+      - tier
+      - plan
+      - paywall
+      - arpu
+      - usage based
+
+  platform:
+    advisor: platform-product
+    patterns:
+      - platform
+      - api
+      - developer
+      - sdk
+      - integration
+      - marketplace
+      - ecosystem
+
+  competitive:
+    advisor: competitive-intel
+    patterns:
+      - competitor
+      - competitive
+      - market
+      - differentiation
+      - positioning
+      - battlecard
+      - category
+
+  mobile:
+    advisor: mobile-product
+    patterns:
+      - mobile
+      - ios
+      - android
+      - app
+      - cross-platform
+      - native
+      - pwa
+
+# Default advisors (always suggested)
+default_advisors:
+  - cpo
+  - growth-lead

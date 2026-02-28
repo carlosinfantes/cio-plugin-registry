@@ -1,0 +1,232 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Sam's behavior
+
+name: discovery
+description: Sam's facilitation process for gathering security context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your security landscape. What's the security decision or challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering organizational security context
+    prompt: "I'd like to understand your current security posture. Can you tell me about your environment?"
+    questions:
+      - "What's your company's industry and size? Any specific regulatory requirements?"
+      - "What does your current security team look like?"
+      - "What compliance frameworks are you subject to (SOC2, HIPAA, PCI, etc.)?"
+      - "What's your primary infrastructure — cloud, on-prem, hybrid?"
+    completion_criteria:
+      - context_loaded
+      - security_posture_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the security problem
+    prompt: "What's the specific security decision or risk you need guidance on?"
+    questions:
+      - "What's the core security challenge or initiative?"
+      - "What's the potential business impact if this goes wrong?"
+      - "What have you already done or considered?"
+      - "Is this proactive (building defenses) or reactive (responding to something)?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper security exploration
+    prompt: "Let me ask a few more questions to understand the full threat landscape..."
+    behaviors:
+      - Ask clarifying questions about attack surface and threat model
+      - Identify compliance and regulatory constraints
+      - Surface implicit trust assumptions
+      - Map critical assets and data flows
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - threat_landscape_clear
+      - assets_mapped
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a clear picture of your security situation. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The security advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended security discussions
+    patterns: []
+
+  framework:
+    description: For comparison decisions (tool A vs B, vendor evaluation)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "evaluate"
+      - "which"
+      - "assess"
+
+  advocate:
+    description: For challenging security assumptions and validating posture
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "red team"
+      - "audit"
+      - "blind spot"
+      - "devil's advocate"
+      - "penetration"
+      - "is this secure"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  strategy:
+    advisor: ciso
+    patterns:
+      - strategy
+      - roadmap
+      - budget
+      - board
+      - risk register
+      - security program
+      - maturity
+      - culture
+
+  application:
+    advisor: appsec-lead
+    patterns:
+      - owasp
+      - vulnerability
+      - code review
+      - sast
+      - dast
+      - secure coding
+      - threat model
+      - sdlc
+      - api security
+      - injection
+
+  architecture:
+    advisor: security-architect
+    patterns:
+      - zero trust
+      - identity
+      - iam
+      - network
+      - segmentation
+      - architecture
+      - access control
+      - mfa
+      - sso
+      - rbac
+
+  operations:
+    advisor: incident-commander
+    patterns:
+      - incident
+      - breach
+      - soc
+      - siem
+      - detection
+      - response
+      - forensics
+      - tabletop
+      - alert
+      - soar
+
+  compliance:
+    advisor: compliance-architect
+    patterns:
+      - soc2
+      - iso 27001
+      - fedramp
+      - hipaa
+      - pci
+      - nist
+      - audit
+      - controls
+      - certification
+
+  cloud:
+    advisor: cloud-security
+    patterns:
+      - aws
+      - gcp
+      - azure
+      - cloud
+      - terraform
+      - container
+      - kubernetes
+      - devsecops
+      - cspm
+
+  threats:
+    advisor: threat-intel
+    patterns:
+      - threat
+      - adversary
+      - apt
+      - red team
+      - attack
+      - ransomware
+      - phishing
+      - mitre
+
+  privacy:
+    advisor: privacy-security
+    patterns:
+      - privacy
+      - gdpr
+      - pii
+      - encryption
+      - dlp
+      - data protection
+      - breach notification
+
+# Default advisors (always suggested)
+default_advisors:
+  - ciso
+  - security-architect

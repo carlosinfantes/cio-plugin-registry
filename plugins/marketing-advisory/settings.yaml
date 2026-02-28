@@ -1,0 +1,90 @@
+# Marketing & Brand Advisory Board Plugin Settings
+# Domain-specific defaults and configuration
+
+# Default interaction mode
+# Options: panel, framework, advocate, interview
+default_mode: panel
+
+# Default advisors to include in panel discussions
+default_advisors:
+  - cmo
+  - demand-gen
+
+# Whether to start with Noor (discovery mode) before panel
+start_in_discovery: true
+
+# Maximum advisors allowed in a single session
+max_advisors: 5
+
+# Minimum advisors required for panel mode
+min_advisors: 2
+
+# Auto-summon specialists based on keywords
+auto_summon_specialists: true
+
+# Discovery mode settings
+discovery:
+  # Minimum questions before allowing escalation
+  min_questions: 2
+  # Maximum questions before forcing escalation
+  max_questions: 10
+  # Auto-escalate when all criteria met
+  auto_escalate: true
+
+# Panel mode settings
+panel:
+  # Show synthesis at end of discussion
+  show_synthesis: true
+  # Enable advisor-to-advisor responses
+  enable_debate: true
+  # Response ordering strategy: round_robin, priority, debate
+  ordering: round_robin
+
+# Framework mode settings
+framework:
+  # Default framework templates
+  templates:
+    - channel-mix-evaluation
+    - brand-positioning
+    - campaign-planning
+    - martech-stack-assessment
+  # Show weighted scoring
+  show_scoring: true
+
+# Advocate mode settings
+advocate:
+  # Number of rounds in advocate mode
+  rounds: 3
+  # Intensity: light, moderate, aggressive
+  challenge_intensity: moderate
+
+# Response formatting
+formatting:
+  # Show emoji in advisor headers
+  show_emoji: true
+  # Show role in advisor headers
+  show_role: true
+  # Use markdown formatting
+  use_markdown: true
+  # Include thinking style hints
+  show_thinking_style: false
+
+# Context integration
+context:
+  # Use CRF context files if available
+  use_crf: true
+  # Warn if context is stale (days)
+  stale_warning_days: 14
+  # Required context types for full analysis
+  required_types:
+    - audience
+    - campaign
+
+# Decision recording
+decisions:
+  # Auto-create DRF records
+  auto_record: true
+  # Decision record format
+  format: drf
+  # Include full discussion in record
+  include_discussion: true

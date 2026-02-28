@@ -1,0 +1,225 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Kai's behavior
+
+name: discovery
+description: Kai's facilitation process for gathering startup context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Tell me about your startup. What's the biggest decision or challenge you're wrestling with?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering startup context
+    prompt: "I'd like to understand where you are in the journey. Can you tell me more about your company?"
+    questions:
+      - "What stage are you at — idea, pre-seed, seed, Series A, later?"
+      - "How big is your team right now?"
+      - "Do you have revenue? Customers?"
+      - "Have you raised funding, and if so, how much runway do you have?"
+    completion_criteria:
+      - context_loaded
+      - startup_stage_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: Founder is articulating the core challenge
+    prompt: "What's the specific decision or challenge that's keeping you up at night?"
+    questions:
+      - "What's the core challenge you're facing?"
+      - "What have you already tried?"
+      - "What would the ideal outcome look like in 6 months?"
+      - "What's the cost of getting this wrong?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper exploration
+    prompt: "Let me ask a few more questions to make sure the advisors have the full picture..."
+    behaviors:
+      - Ask clarifying questions about founder motivation
+      - Identify resource constraints and burn rate
+      - Surface competitive and market dynamics
+      - Understand co-founder alignment
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - goals_clear
+      - market_context_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a good picture of where you are. Ready to bring in the advisory board?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The startup advisory board is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended startup discussions
+    patterns: []
+
+  framework:
+    description: For comparison decisions (pivot vs persist, pricing A vs B)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "which"
+      - "should we"
+      - "option"
+      - "pivot or"
+
+  advocate:
+    description: For validation and challenge of startup assumptions
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+      - "roast my"
+      - "tear apart"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  founder_experience:
+    advisor: serial-founder
+    patterns:
+      - founder
+      - co-founder
+      - burnout
+      - pivot
+      - fail
+      - give up
+      - motivation
+      - vision
+
+  fundraising:
+    advisor: vc-partner
+    patterns:
+      - fundraise
+      - raise
+      - round
+      - investors
+      - vc
+      - valuation
+      - term sheet
+      - board
+
+  growth:
+    advisor: growth-operator
+    patterns:
+      - growth
+      - cac
+      - ltv
+      - churn
+      - retention
+      - marketing
+      - sales
+      - gtm
+      - pricing
+
+  technical:
+    advisor: startup-cto
+    patterns:
+      - mvp
+      - architecture
+      - tech stack
+      - engineer
+      - developer
+      - build
+      - ship
+      - scale
+
+  cap_table:
+    advisor: fundraising
+    patterns:
+      - cap table
+      - dilution
+      - safe
+      - convertible
+      - equity
+      - vesting
+      - option pool
+      - 409a
+
+  pmf:
+    advisor: product-market-fit
+    patterns:
+      - product-market fit
+      - pmf
+      - customer discovery
+      - validation
+      - experiment
+      - pivot
+      - nps
+
+  talent:
+    advisor: hiring
+    patterns:
+      - hire
+      - recruit
+      - team
+      - culture
+      - compensation
+      - fire
+      - let go
+      - co-founder
+
+  legal:
+    advisor: legal-startup
+    patterns:
+      - incorporate
+      - legal
+      - patent
+      - ip
+      - trademark
+      - 83b
+      - delaware
+
+# Default advisors (always suggested)
+default_advisors:
+  - serial-founder
+  - vc-partner

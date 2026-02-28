@@ -1,0 +1,225 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Noor's behavior
+
+name: discovery
+description: Noor's facilitation process for gathering marketing context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your marketing landscape. What's the marketing or brand challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering marketing and market context
+    prompt: "I'd like to understand your current marketing setup. Can you tell me about your situation?"
+    questions:
+      - "What's your product/service and who's your target audience?"
+      - "What's your current marketing team size and structure?"
+      - "What channels are you currently active on?"
+      - "What's your approximate marketing budget and how is it allocated?"
+    completion_criteria:
+      - context_loaded
+      - marketing_landscape_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the marketing challenge
+    prompt: "What's the specific marketing or brand decision you need guidance on?"
+    questions:
+      - "What's the core marketing challenge you're facing?"
+      - "What have you already tried and what were the results?"
+      - "What does success look like for this initiative?"
+      - "What's the timeline and budget for this?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper marketing exploration
+    prompt: "Let me ask a few more questions to understand the full marketing picture..."
+    behaviors:
+      - Ask clarifying questions about target audience and ICP
+      - Identify competitive positioning and differentiation
+      - Surface implicit assumptions about channels and messaging
+      - Map the buyer journey and conversion points
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - marketing_goals_clear
+      - audience_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a clear picture of your marketing situation. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The marketing advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended marketing discussions
+    patterns: []
+
+  framework:
+    description: For comparison decisions (channel A vs B, campaign strategies)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "evaluate"
+      - "which"
+      - "allocate"
+      - "budget"
+
+  advocate:
+    description: For challenging marketing assumptions and validating strategy
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+      - "critique"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  strategy:
+    advisor: cmo
+    patterns:
+      - marketing strategy
+      - brand
+      - positioning
+      - narrative
+      - category
+      - budget allocation
+      - marketing org
+
+  pipeline:
+    advisor: demand-gen
+    patterns:
+      - pipeline
+      - demand gen
+      - leads
+      - abm
+      - campaign
+      - conversion
+      - mql
+      - sql
+      - marketing sales alignment
+
+  brand:
+    advisor: brand-strategy
+    patterns:
+      - brand
+      - identity
+      - voice
+      - tone
+      - messaging
+      - pr
+      - communications
+      - reputation
+      - crisis
+
+  content:
+    advisor: content-strategy
+    patterns:
+      - content
+      - seo
+      - blog
+      - thought leadership
+      - editorial
+      - organic
+      - search
+      - keyword
+
+  paid:
+    advisor: paid-acquisition
+    patterns:
+      - paid
+      - ads
+      - google ads
+      - facebook
+      - linkedin
+      - ppc
+      - roas
+      - cpa
+      - retargeting
+
+  pmm:
+    advisor: product-marketing
+    patterns:
+      - positioning
+      - launch
+      - go-to-market
+      - gtm
+      - battlecard
+      - sales enablement
+      - analyst relations
+
+  community:
+    advisor: community-events
+    patterns:
+      - community
+      - event
+      - conference
+      - webinar
+      - podcast
+      - ambassador
+      - advocacy
+
+  ops:
+    advisor: marketing-ops
+    patterns:
+      - martech
+      - automation
+      - hubspot
+      - marketo
+      - salesforce
+      - attribution
+      - lead scoring
+      - reporting
+
+# Default advisors (always suggested)
+default_advisors:
+  - cmo
+  - demand-gen

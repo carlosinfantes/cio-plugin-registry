@@ -1,0 +1,236 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Robin's behavior
+
+name: discovery
+description: Robin's facilitation process for gathering data/AI context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your data and AI landscape. What's the decision or challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering organizational data context
+    prompt: "I'd like to understand your current data and AI maturity. Can you tell me about your setup?"
+    questions:
+      - "What's your current data stack and infrastructure?"
+      - "Do you have a dedicated data or ML team? How big?"
+      - "What are your primary data sources and volumes?"
+      - "Are you already using ML/AI in production, or exploring?"
+    completion_criteria:
+      - context_loaded
+      - data_maturity_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the data/AI problem
+    prompt: "What's the specific data or AI decision you need guidance on?"
+    questions:
+      - "What's the core challenge — data infrastructure, ML, governance, or AI adoption?"
+      - "What have you already tried or evaluated?"
+      - "What would the ideal outcome look like?"
+      - "What constraints do you face (budget, talent, timeline, regulation)?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper data/AI exploration
+    prompt: "Let me ask a few more questions to fully understand the data landscape..."
+    behaviors:
+      - Ask clarifying questions about data quality and availability
+      - Identify regulatory and compliance constraints
+      - Surface implicit assumptions about ML feasibility
+      - Map data consumers and stakeholders
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - data_goals_clear
+      - assumptions_surfaced
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a solid understanding of your data/AI landscape. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The Data & AI advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended data/AI discussions
+    patterns: []
+
+  framework:
+    description: For comparison decisions (tool A vs B, build vs buy)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "which"
+      - "should we choose"
+      - "evaluate"
+      - "benchmark"
+
+  advocate:
+    description: For validation and challenge of data/AI strategies
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+      - "sanity check"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  data_strategy:
+    advisor: chief-data-officer
+    patterns:
+      - governance
+      - data strategy
+      - data quality
+      - data catalog
+      - data product
+      - data mesh
+      - data team
+      - data culture
+
+  ml_engineering:
+    advisor: ml-engineering-lead
+    patterns:
+      - mlops
+      - model serving
+      - feature store
+      - training pipeline
+      - model drift
+      - experiment tracking
+      - inference
+      - latency
+
+  research:
+    advisor: ai-researcher
+    patterns:
+      - state of the art
+      - paper
+      - research
+      - feasibility
+      - novel
+      - baseline
+      - accuracy
+      - benchmark
+      - transformer
+      - attention
+
+  platform:
+    advisor: data-platform-architect
+    patterns:
+      - data stack
+      - lakehouse
+      - warehouse
+      - streaming
+      - kafka
+      - spark
+      - dbt
+      - airflow
+      - dagster
+      - snowflake
+      - databricks
+      - bigquery
+
+  ethics:
+    advisor: ai-ethics
+    patterns:
+      - ethics
+      - bias
+      - fairness
+      - responsible
+      - harmful
+      - discrimination
+      - transparency
+      - explainability
+      - eu ai act
+
+  privacy:
+    advisor: data-privacy
+    patterns:
+      - privacy
+      - gdpr
+      - ccpa
+      - pii
+      - anonymization
+      - consent
+      - data protection
+      - retention
+
+  analytics:
+    advisor: analytics-lead
+    patterns:
+      - dashboard
+      - report
+      - kpi
+      - metrics
+      - analytics
+      - bi
+      - visualization
+      - self-service
+
+  genai:
+    advisor: genai-specialist
+    patterns:
+      - llm
+      - gpt
+      - claude
+      - generative ai
+      - rag
+      - fine-tune
+      - prompt engineering
+      - embedding
+      - vector
+      - agent
+      - copilot
+      - chatbot
+
+# Default advisors (always suggested)
+default_advisors:
+  - chief-data-officer
+  - data-platform-architect

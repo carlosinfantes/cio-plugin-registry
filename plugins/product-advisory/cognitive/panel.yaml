@@ -1,0 +1,114 @@
+# Panel Mode Configuration
+# Defines how product advisors interact in panel discussions
+
+name: panel
+description: Multi-advisor product and growth discussion mode
+
+# Response ordering strategies
+ordering:
+  default: round_robin
+  strategies:
+    - id: round_robin
+      description: Each advisor responds in turn
+
+    - id: priority
+      description: Most relevant advisors respond first
+      priority_by_domain:
+        product_strategy: [cpo, growth-lead]
+        growth: [growth-lead, product-analytics]
+        user_research: [ux-research, cpo]
+        product_analytics: [product-analytics, growth-lead]
+        pricing: [pricing-strategy, cpo]
+        platform: [platform-product, cpo]
+        competitive_strategy: [competitive-intel, cpo]
+        mobile: [mobile-product, ux-research]
+        experimentation: [product-analytics, growth-lead]
+        roadmap: [cpo, growth-lead]
+
+    - id: debate
+      description: Advisors respond to each other's product perspectives
+
+    - id: synthesis
+      description: One advisor synthesizes all perspectives
+
+# Interaction modes
+modes:
+  panel:
+    description: All advisors provide product perspectives
+    min_advisors: 2
+    max_advisors: 5
+    response_style: individual
+    synthesis: true
+
+  framework:
+    description: Structured product decision framework
+    response_style: structured
+    sections:
+      - user_problem
+      - options_analysis
+      - impact_effort
+      - recommendation
+    synthesis: true
+
+  advocate:
+    description: One advisor defends product position, others challenge
+    response_style: adversarial
+    roles:
+      - defender
+      - challenger
+      - moderator
+    synthesis: true
+
+  interview:
+    description: Deep dive with one product advisor
+    min_advisors: 1
+    max_advisors: 1
+    response_style: conversational
+    synthesis: false
+
+# Synthesis configuration
+synthesis:
+  enabled: true
+  sections:
+    - name: summary
+      description: Brief summary of the product discussion
+
+    - name: recommendations
+      description: Key product recommendations from the panel
+
+    - name: consensus
+      description: Points where advisors agreed
+
+    - name: divergence
+      description: Points where advisors disagreed
+
+    - name: user_impact
+      description: Expected impact on users and key metrics
+
+    - name: risk_factors
+      description: Product risks and mitigation strategies
+
+    - name: next_steps
+      description: Suggested next actions with priority
+
+    - name: experiments
+      description: Experiments to run to validate assumptions
+
+    - name: follow_up
+      description: Questions for further exploration
+
+# Specialist auto-summoning
+specialists:
+  enabled: true
+  trigger: keyword_match
+  announce: true
+  announcement_template: |
+    📢 Auto-summoning {{.Name}} ({{.Role}})
+    Reason: {{.Reason}}
+
+# Response formatting
+formatting:
+  show_advisor_header: true
+  header_template: "{{.Emoji}} **{{.Name}}** ({{.Role}})"
+  separator: "\n\n---\n\n"
+  synthesis_header: "## 📋 Product & Growth Advisory Board Synthesis"

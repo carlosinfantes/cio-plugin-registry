@@ -1,0 +1,223 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Maya's behavior
+
+name: discovery
+description: Maya's facilitation process for gathering people/org context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your team and organization. What's the people or organizational challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering organizational and team context
+    prompt: "I'd like to understand your organization. Can you tell me about your current setup?"
+    questions:
+      - "How big is your organization and what's the growth trajectory?"
+      - "What's your current work model — remote, hybrid, in-office?"
+      - "What does your HR/People team look like today?"
+      - "Are there any upcoming changes (reorg, fundraise, acquisition) that affect this?"
+    completion_criteria:
+      - context_loaded
+      - organization_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the people challenge
+    prompt: "What's the specific people or organizational decision you need guidance on?"
+    questions:
+      - "What's the core people challenge you're facing?"
+      - "Who are the stakeholders affected by this decision?"
+      - "What have you already tried or considered?"
+      - "What does a successful outcome look like?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper exploration
+    prompt: "Let me ask a few more questions to understand the full people picture..."
+    behaviors:
+      - Ask clarifying questions about team dynamics and morale
+      - Identify cultural constraints and sensitivities
+      - Surface implicit assumptions about talent and org structure
+      - Map stakeholder concerns and political dynamics
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - people_goals_clear
+      - dynamics_understood
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a good picture of your people situation. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The people advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended people discussions
+    patterns: []
+
+  framework:
+    description: For structured people decisions
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "evaluate"
+      - "which approach"
+      - "assessment"
+
+  advocate:
+    description: For challenging people assumptions and validating strategies
+    patterns:
+      - "validate"
+      - "review"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+      - "pushback"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  strategy:
+    advisor: chro
+    patterns:
+      - people strategy
+      - workforce planning
+      - executive team
+      - culture
+      - change management
+      - transformation
+      - leadership
+
+  structure:
+    advisor: org-designer
+    patterns:
+      - reorg
+      - restructure
+      - org design
+      - team topology
+      - reporting
+      - span of control
+      - operating model
+      - decision rights
+
+  hiring:
+    advisor: talent-lead
+    patterns:
+      - hire
+      - recruit
+      - sourcing
+      - employer brand
+      - candidate
+      - interview
+      - job description
+      - talent pipeline
+
+  compensation:
+    advisor: total-rewards
+    patterns:
+      - compensation
+      - salary
+      - equity
+      - bonus
+      - benefits
+      - pay band
+      - benchmark
+      - offer
+
+  dei:
+    advisor: dei-lead
+    patterns:
+      - diversity
+      - equity
+      - inclusion
+      - dei
+      - belonging
+      - representation
+      - erg
+      - bias
+
+  development:
+    advisor: learning-dev
+    patterns:
+      - training
+      - development
+      - career
+      - promotion
+      - growth
+      - mentorship
+      - coaching
+      - succession
+
+  relations:
+    advisor: employee-relations
+    patterns:
+      - termination
+      - pip
+      - investigation
+      - harassment
+      - complaint
+      - layoff
+      - severance
+      - disciplinary
+
+  remote:
+    advisor: remote-work
+    patterns:
+      - remote
+      - hybrid
+      - distributed
+      - rto
+      - return to office
+      - wfh
+      - async
+      - timezone
+
+# Default advisors (always suggested)
+default_advisors:
+  - chro
+  - org-designer

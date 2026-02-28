@@ -1,0 +1,114 @@
+# Panel Mode Configuration
+# Defines how people advisors interact in panel discussions
+
+name: panel
+description: Multi-advisor people and culture discussion mode
+
+# Response ordering strategies
+ordering:
+  default: round_robin
+  strategies:
+    - id: round_robin
+      description: Each advisor responds in turn
+
+    - id: priority
+      description: Most relevant advisors respond first
+      priority_by_domain:
+        people_strategy: [chro, org-designer]
+        organizational_design: [org-designer, chro]
+        talent_acquisition: [talent-lead, chro]
+        total_rewards: [total-rewards, chro]
+        dei: [dei-lead, chro]
+        learning_development: [learning-dev, chro]
+        employee_relations: [employee-relations, chro]
+        performance_management: [chro, total-rewards]
+        remote_hybrid: [remote-work, org-designer]
+        culture: [chro, dei-lead]
+
+    - id: debate
+      description: Advisors respond to each other's people perspectives
+
+    - id: synthesis
+      description: One advisor synthesizes all perspectives
+
+# Interaction modes
+modes:
+  panel:
+    description: All advisors provide people and culture perspectives
+    min_advisors: 2
+    max_advisors: 5
+    response_style: individual
+    synthesis: true
+
+  framework:
+    description: Structured people decision framework
+    response_style: structured
+    sections:
+      - situation_assessment
+      - stakeholder_impact
+      - options_analysis
+      - recommendation
+    synthesis: true
+
+  advocate:
+    description: One advisor defends position, others challenge
+    response_style: adversarial
+    roles:
+      - defender
+      - challenger
+      - moderator
+    synthesis: true
+
+  interview:
+    description: Deep dive with one people advisor
+    min_advisors: 1
+    max_advisors: 1
+    response_style: conversational
+    synthesis: false
+
+# Synthesis configuration
+synthesis:
+  enabled: true
+  sections:
+    - name: summary
+      description: Brief summary of the people discussion
+
+    - name: recommendations
+      description: Key people recommendations from the panel
+
+    - name: consensus
+      description: Points where advisors agreed
+
+    - name: divergence
+      description: Points where advisors disagreed
+
+    - name: people_impact
+      description: Impact on employees, teams, and culture
+
+    - name: risk_factors
+      description: People risks and how to mitigate them
+
+    - name: communication_plan
+      description: How to communicate decisions to the organization
+
+    - name: next_steps
+      description: Suggested next actions
+
+    - name: follow_up
+      description: Questions for further exploration
+
+# Specialist auto-summoning
+specialists:
+  enabled: true
+  trigger: keyword_match
+  announce: true
+  announcement_template: |
+    📢 Auto-summoning {{.Name}} ({{.Role}})
+    Reason: {{.Reason}}
+
+# Response formatting
+formatting:
+  show_advisor_header: true
+  header_template: "{{.Emoji}} **{{.Name}}** ({{.Role}})"
+  separator: "\n\n---\n\n"
+  synthesis_header: "## 📋 People & Culture Advisory Board Synthesis"

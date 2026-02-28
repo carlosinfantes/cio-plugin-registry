@@ -1,0 +1,211 @@
+# Discovery Mode Configuration
+# Defines the facilitation state machine and Dana's behavior
+
+name: discovery
+description: Dana's facilitation process for gathering financial context before panel discussion
+
+# State machine phases
+phases:
+  - id: init
+    name: Initial
+    description: Initial state, no context or problem yet
+    prompt: "Let me learn about your situation. What's the financial decision or challenge you're facing?"
+    transitions:
+      - to: context_gathering
+        trigger: message_received
+
+  - id: context_gathering
+    name: Context Gathering
+    description: Gathering organizational and financial context
+    prompt: "I'd like to understand your financial landscape. Can you tell me about your company's current situation?"
+    questions:
+      - "What's your company stage — pre-revenue, growth, mature, public?"
+      - "What's the approximate revenue range or ARR?"
+      - "Who are the key stakeholders for this financial decision?"
+      - "What's the timeline and urgency?"
+    completion_criteria:
+      - context_loaded
+      - company_understood
+    transitions:
+      - to: problem_articulation
+        trigger: context_complete
+
+  - id: problem_articulation
+    name: Problem Articulation
+    description: User is articulating the financial problem
+    prompt: "What's the specific financial decision or analysis you need guidance on?"
+    questions:
+      - "What's the core financial challenge?"
+      - "What options have you already considered?"
+      - "What would an ideal financial outcome look like?"
+      - "What are the financial constraints or guardrails?"
+    completion_criteria:
+      - problem_stated
+      - clear_enough_for_panel
+    transitions:
+      - to: discovery
+        trigger: problem_articulated
+
+  - id: discovery
+    name: Discovery
+    description: Clarifying questions and deeper financial exploration
+    prompt: "Let me ask a few clarifying questions to make sure I understand the full financial picture..."
+    behaviors:
+      - Ask clarifying questions about financial assumptions
+      - Identify budget constraints and cash flow implications
+      - Surface implicit financial risks
+      - Map stakeholder financial interests
+    max_questions: 5
+    completion_criteria:
+      - constraints_identified
+      - financial_goals_clear
+      - assumptions_surfaced
+    transitions:
+      - to: ready_for_escalation
+        trigger: discovery_complete
+
+  - id: ready_for_escalation
+    name: Ready for Escalation
+    description: All info gathered, ready for panel
+    prompt: "I have a clear picture of your financial situation. Ready to bring in the advisory panel?"
+    actions:
+      - summarize_findings
+      - suggest_advisors
+      - suggest_mode
+    transitions:
+      - to: escalated
+        trigger: user_confirms
+
+  - id: escalated
+    name: Escalated
+    description: Panel has been invoked
+    prompt: "The financial advisory panel is now engaged."
+    terminal: true
+
+# Auto-escalation criteria
+auto_escalation:
+  required:
+    - context_complete
+    - problem_articulated
+    - discovery_complete
+  min_turns: 2
+  max_turns: 10
+
+# Mode suggestions based on problem patterns
+mode_suggestions:
+  panel:
+    description: Default mode for open-ended financial discussions
+    patterns: []
+
+  framework:
+    description: For comparison decisions (invest vs divest, pricing A vs B)
+    patterns:
+      - " vs "
+      - " versus "
+      - " or "
+      - "compare"
+      - "which option"
+      - "what should we choose"
+      - "alternative"
+
+  advocate:
+    description: For validation and challenge of financial assumptions
+    patterns:
+      - "validate"
+      - "stress test"
+      - "challenge"
+      - "is this right"
+      - "am i missing"
+      - "blind spot"
+      - "devil's advocate"
+      - "assumption"
+
+# Advisor suggestions based on keywords
+advisor_suggestions:
+  accounting:
+    advisor: controller
+    patterns:
+      - gaap
+      - ifrs
+      - revenue recognition
+      - audit
+      - sox
+      - internal controls
+      - accounting
+      - reconciliation
+
+  planning:
+    advisor: fp-and-a
+    patterns:
+      - forecast
+      - budget
+      - scenario
+      - model
+      - kpi
+      - benchmark
+      - plan
+      - projection
+
+  capital:
+    advisor: treasury
+    patterns:
+      - cash
+      - liquidity
+      - debt
+      - equity
+      - financing
+      - loan
+      - credit
+      - covenant
+      - hedge
+
+  tax:
+    advisor: tax-strategy
+    patterns:
+      - tax
+      - irs
+      - deduction
+      - r&d credit
+      - transfer pricing
+      - entity structure
+      - nexus
+
+  investors:
+    advisor: investor-relations
+    patterns:
+      - investor
+      - shareholder
+      - earnings
+      - guidance
+      - analyst
+      - valuation
+      - ipo
+      - fundraise
+
+  deals:
+    advisor: ma-strategy
+    patterns:
+      - acquisition
+      - merger
+      - divestiture
+      - due diligence
+      - synergy
+      - integration
+      - deal
+      - loi
+
+  vendors:
+    advisor: procurement
+    patterns:
+      - vendor
+      - procurement
+      - supplier
+      - sourcing
+      - contract
+      - renegotiate
+      - spend
+
+# Default advisors (always suggested)
+default_advisors:
+  - cfo
+  - fp-and-a
